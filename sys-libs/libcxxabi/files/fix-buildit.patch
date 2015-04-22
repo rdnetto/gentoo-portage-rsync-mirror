@@ -1,0 +1,28 @@
+Index: lib/buildit
+===================================================================
+--- lib/buildit	(revision 235483)
++++ lib/buildit	(working copy)
+@@ -70,7 +70,7 @@
+     SOEXT=so
+     LDSHARED_FLAGS="-o libc++abi.so.1.0 \
+         -shared -nodefaultlibs -Wl,-soname,libc++abi.so.1 \
+-        -lpthread -lrt -lc -lstdc++"
++        -lpthread -lrt -lc -lunwind"
+     ;;
+ esac
+ 
+@@ -82,12 +82,12 @@
+ set -x
+ 
+ for FILE in ../src/*.cpp; do
+-	$CXX -c -g -O3 $RC_CFLAGS $EXTRA_FLAGS -I../include $OPTIONS $FILE
++	$CXX -c -O3 $RC_CFLAGS $EXTRA_FLAGS $CXXFLAGS -I../include $OPTIONS $FILE
+ done
+ case $TRIPLE in
+   *-*-mingw*)
+   for FILE in ../src/support/win32/*.cpp; do
+-    $CXX -c -g -Os $RC_CFLAGS $EXTRA_FLAGS -I../include $OPTIONS $FILE
++    $CXX -c -Os $RC_CFLAGS $EXTRA_FLAGS $CXXFLAGS -I../include $OPTIONS $FILE
+   done
+   ;;
+ esac
